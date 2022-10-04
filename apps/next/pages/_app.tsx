@@ -11,13 +11,12 @@ const fixReanimatedIssue = () => {
 
 fixReanimatedIssue()
 
-import { Provider } from 'app/provider'
+import { Provider } from '@poette/app/provider'
 import Head from 'next/head'
 import React from 'react'
 
 import '../global.css'
 import { AppProps } from 'next/app'
-import { trpc } from '../utils/trpc'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -37,4 +36,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default trpc.withTRPC(MyApp)
+export default MyApp

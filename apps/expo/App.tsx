@@ -1,13 +1,10 @@
-import { NativeNavigation } from 'app/navigation/native'
-import { Provider } from 'app/provider'
-import { TRPCProvider } from './trpc'
+import { NativeNavigation } from '@poette/app/navigation/native'
+import { Provider } from '@poette/app/provider'
 
 export default function App() {
   return (
-    <TRPCProvider>
-      <Provider>
-        <NativeNavigation />
-      </Provider>
-    </TRPCProvider>
+    <Provider>
+      <NativeNavigation />
+    </Provider>
   )
 }

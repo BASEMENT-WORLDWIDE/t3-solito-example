@@ -1,4 +1,4 @@
-const { theme } = require('app/design/tailwind/theme')
+const { theme } = require('@poette/app/design/tailwind/theme')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

@@ -11,15 +11,21 @@ export const trpc = createTRPCReact<AppRouter>()
  */
 import Constants from 'expo-constants'
 const getBaseUrl = () => {
-  /**
-   * Gets the IP address of your host-machine. If it cannot automatically find it,
-   * you'll have to manually set it. NOTE: Port 3000 should work for most but confirm
-   * you don't have anything else running on it, or you'd have to change it.
-   */
-  const localhost = Constants.manifest?.debuggerHost?.split(':')[0]
-  if (!localhost)
-    throw new Error('failed to get localhost, configure it manually')
-  return `http://${localhost}:3000`
+  if (Platform.OS !== 'web') {
+    /**
+     * Gets the IP address of your host-machine. If it cannot automatically find it,
+     * you'll have to manually set it. NOTE: Port 3000 should work for most but confirm
+     * you don't have anything else running on it, or you'd have to change it.
+     */
+    const localhost = Constants.manifest?.debuggerHost?.split(':')[0]
+    if (!localhost)
+      throw new Error('failed to get localhost, configure it manually')
+    return `http://${localhost}:3000`
+  }
+  if (typeof window !== 'undefined') return '' // browser should use relative url
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}` // SSR should use vercel url
+
+  return `http://localhost:${process.env.PORT ?? 3000}` // dev SSR should use localhost
 }
 
 /**
@@ -30,6 +36,7 @@ import React from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { httpBatchLink } from '@trpc/client'
 import { transformer } from '@poette/api/transformer'
+import { Platform } from 'react-native'
 
 export const TRPCProvider: React.FC<{ children: React.ReactNode }> = ({
   children,

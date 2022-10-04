@@ -1,17 +1,21 @@
-import { env } from "./src/env/server.mjs";
-import { withExpo } from '@expo/next-adapter'
+import { env } from "./env/server.mjs";
+import expoAdapater from '@expo/next-adapter/build/index.js'
 import withPlugins from 'next-compose-plugins'
+import { createRequire } from "module";
 import withTM from 'next-transpile-modules'
 const transpiledModules = withTM([
   '@poette/api',
+  '@poette/app',
   '@poette/db',
   'solito',
   'moti',
   'nativewind',
-  'app',
 ])
 import withFonts from 'next-fonts'
 import withImages from 'next-images'
+
+const { withExpo } = expoAdapater
+const require = createRequire(import.meta.url)
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -24,11 +28,11 @@ const nextConfig = {
   webpack5: true,
   experimental: {
     forceSwcTransforms: true,
-    swcPlugins: [['./plugins/swc_plugin_reanimated.wasm']],
+    swcPlugins: [[require.resolve('./plugins/swc_plugin_reanimated.wasm')]],
   },
 }
 
-module.exports = withPlugins(
+export default withPlugins(
   [transpiledModules, withFonts, withImages, withExpo],
-  nextConfig
+  nextConfig,
 )
