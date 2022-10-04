@@ -1,4 +1,5 @@
-# Solito + NativeWind Example Monorepo 🕴
+# USE AT YOUR OWN RISK, 0 SUPPORT.
+## Solito + NativeWind + T3 Stack Example Monorepo 🕴
 
 ```sh
 npx create-solito-app@latest my-solito-app -t with-tailwind
